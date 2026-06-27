@@ -38,7 +38,8 @@ app.post('/api/contacto', async (req, res) => {
             // Esta línea ayuda a evitar bloqueos de certificados en hostings compartidos
             tls: {
                 rejectUnauthorized: false
-            }
+            },
+            family: 4 // Forzar IPv4 para evitar problemas de DNS en algunos entornos
         });
 
         // Configuración del mensaje
