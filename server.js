@@ -27,13 +27,17 @@ app.post('/api/contacto', async (req, res) => {
     try {
         // Configuración del servidor de correo (SMTP)
         // Puedes usar las credenciales de correo que te da DonWeb, o usar Gmail, SendGrid, etc.
-        const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,     // ej: smtp.donweb.com o smtp.gmail.com
-            port: process.env.SMTP_PORT,     // ej: 465 (Seguro) o 587
-            secure: true,                    // true para el puerto 465, false para otros
+       const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,     
+            port: process.env.SMTP_PORT,     
+            secure: process.env.SMTP_PORT == 465, 
             auth: {
-                user: process.env.SMTP_USER, // Tu correo desde donde se enviará
-                pass: process.env.SMTP_PASS  // Tu contraseña del correo
+                user: process.env.SMTP_USER, 
+                pass: process.env.SMTP_PASS  
+            },
+            // Esta línea ayuda a evitar bloqueos de certificados en hostings compartidos
+            tls: {
+                rejectUnauthorized: false
             }
         });
 
